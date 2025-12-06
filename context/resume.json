@@ -1,0 +1,129 @@
+{
+  "user": {
+    "name": "Mohammed Moinuddin Shaikh",
+    "role": "Backend Developer",
+    "avatar_url": "/me3.jpg",
+    "location": "Mumbai, India",
+    "summary": "Specializing in scalable APIs and distributed systems.",
+    "badges": [
+      "2+ Years Experience",
+      "Impact Driven",
+      "AI/ML Enthusiast"
+    ],
+    "education": {
+      "degree": "B.E. Information Technology",
+      "college": "M.H. Saboo Siddik College of Engineering",
+      "year": "2026 Batch",
+      "cgpa": "8.64"
+    }
+  },
+  "experience": [
+    {
+      "role": "Technical Head",
+      "company": "ACM MHSSCE",
+      "type": "Leadership",
+      "date": "July 2025 - Present",
+      "description": "Spearheading technical initiatives, mentoring peers in Backend Architecture, and managing the deployment lifecycles of club projects."
+    },
+    {
+      "role": "Flutter Developer Intern",
+      "company": "MSD Engineering",
+      "type": "Internship",
+      "date": "Jan 2025 - Mar 2025",
+      "description": "Focused on System Integration and Database Architecture. Integrated a custom AI Chatbot, optimized API data fetching strategies, and handled backend connectivity. Assisted with UI implementation."
+    }
+  ],
+  "skills_categories": {
+    "Languages": [
+      { "name": "Java", "percent": 80, "icon": "Coffee" },
+      { "name": "Python", "percent": 85, "icon": "Snake" },
+      { "name": "SQL", "percent": 90, "icon": "Database" },
+      { "name": "JavaScript / TypeScript", "percent": 70, "icon": "Code" }
+    ],
+    "Backend": [
+      { "name": "Node.js", "percent": 85, "icon": "Server" },
+      { "name": "MySQL", "percent": 80, "icon": "Database" },
+      { "name": "Flask", "percent": 70, "icon": "Flask" }
+    ],
+    "Frontend": [
+      { "name": "Tailwind", "percent": 80, "icon": "Paintbrush" },
+      { "name": "React", "percent": 70, "icon": "Atom" },
+      { "name": "Next.js", "percent": 55, "icon": "AppWindow" },
+      { "name": "Flutter", "percent": 40, "icon": "Smartphone" }
+
+    ],
+    "Tools & DevOps": [
+      { "name": "Git & GitHub", "percent": 90, "icon": "GitBranch" },
+      { "name": "AWS (Cloud Ops)", "percent": 70, "icon": "Cloud" },
+      { "name": "Jira", "percent": 40, "icon": "Trello" },
+      { "name": "CI / CD", "percent": 90, "icon": "Workflow" }
+
+    ]
+  },
+  "github": {
+    "stats": {
+      "languages": [
+        { "name": "Python", "percent": 45, "color": "#3572A5" },
+        { "name": "Java", "percent": 30, "color": "#b07219" },
+        { "name": "JavaScript", "percent": 15, "color": "#f1e05a" },
+        { "name": "Other", "percent": 10, "color": "#ededed" }
+      ]
+    },
+    "highlighted_projects": [
+      {
+        "name": "AI Deepfake Detection",
+        "description": "Enterprise-grade backend detecting manipulated media using LSTM models and Flask APIs.",
+        "tech": ["Python", "TensorFlow", "Flask", "Deep Learning"],
+        "repo_url": "https://github.com/Codesmith-23/AI-Deepfake-Detection",
+        "demo_url": null,
+        "image": "/projects/deepfake.png"
+      },
+      {
+        "name": "Facial Recognition System",
+        "description": "Biometric attendance system with advanced liveness detection to prevent anti-spoofing attacks.",
+        "tech": ["Python", "OpenCV", "dlib", "Computer Vision"],
+        "repo_url": "https://github.com/Codesmith-23/Facial-Recognition-Attendance-System-with-liveness-check",
+        "demo_url": null,
+        "image": "/projects/fcas.jpg"
+      },
+      {
+        "name": "Hotel Management System",
+        "description": "Java-based desktop application for managing bookings, inventory, and billing workflows.",
+        "tech": ["Java", "MySQL", "JDBC", "Swing"],
+        "repo_url": "https://github.com/Codesmith-23/Hotel-Management-System",
+        "demo_url": null,
+        "image": "/projects/hms.jpg"
+      },
+      {
+        "name": "Git Command Finder",
+        "description": "A developer utility tool to quickly lookup and generate complex Git commands.",
+        "tech": ["JavaScript", "HTML/CSS", "Tooling"],
+        "repo_url": "https://github.com/Codesmith-23/Git-Command-Finder",
+        "demo_url": "https://gitcommandfinder.vercel.app/",
+        "image": "/projects/gitfinder.png"
+      },
+      {
+        "name": "Portfolio API Client",
+        "description": "Interactive Developer Portfolio designed as a Postman-style API Client using Next.js 14.",
+        "tech": ["Next.js", "Tailwind CSS", "Shadcn UI"],
+        "repo_url": "https://github.com/Codesmith-23",
+        "demo_url": null,
+        "image": "/projects/portfolio.png"
+      },
+      {
+        "name": "Gesture Language Translator",
+        "description": "Smart System to simplify communication between for special individuals",
+        "tech": ["Python", "OpenCV", "dlib", "Computer Vision"],
+        "repo_url": "https://github.com/Codesmith-23/Facial-Recognition-Attendance-System-with-liveness-check",
+        "demo_url": null,
+        "image": "/projects/glts.jpg"
+      }
+    ]
+  },
+  "contact": {
+    "email": "s.moinuddin2310@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/mohammed-moinuddin-shaikh-699ab7259",
+    "instagram": "https://www.instagram.com/____moinuddin_?igsh=anhoZWgwMjV0Y3Bt",
+    "github": "https://github.com/Codesmith-23"
+  }
+}
