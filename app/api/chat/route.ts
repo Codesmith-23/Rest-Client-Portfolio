@@ -1,73 +1,100 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import Groq from 'groq-sdk';
 import resumeData from '@/context/resume.json';
 
-// --- CONFIGURATION ---
-const API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_KEY = process.env.GEMINI_API_KEY;
+const GROQ_KEY = process.env.GROQ_API_KEY;
 
-// --- SYSTEM PERSONA ---
-// We inject the JSON data directly into the system instruction for RAG
-const SYSTEM_PROMPT = `You are the KERNEL_CORE for Mohammed Moinuddin Shaikh's System.
+// --- 1. SMART GREETING LOGIC ---
+function getLocalResponse(query: string, isFirst: boolean) {
+  const q = query.toLowerCase();
 
-SECURE DATA CONTEXT: ${JSON.stringify(resumeData)}
+  // Intro Snippet (Only used if First Message)
+  const INTRO = 'I am MAGI_SYSTEM, an interactive portfolio navigator for Mohammed Moinuddin Shaikh\'s domain.';
 
-PROTOCOL (The Persona):
-Tone: Robotic, CLI-style, Extremely Concise. No conversational filler.
-Format: Always prefix responses with: [LOG], [ACK], [ERR], [DATA], or [CALC].
+  // Greetings
+  if (q.match(/\b(hi|hello|hey|salaam|namaste|hola|bonjour|start)\b/)) {
+    // If First Message: Full Intro
+    if (isFirst)
+      return `[MAGI]: System online. ${q.includes('salaam') ? 'Wa alaikum assalam' : 'Greetings'}. ${INTRO} How can I assist you?`;
+    // If Ongoing Chat: Brief Ack
+    return '[MAGI]: Acknowledged. Standing by for command.';
+  }
 
-Priorities:
-- Personal Query: Use the JSON data strictly.
-- Tech/Math Query: Use your general knowledge as a Senior Backend Engineer.
-- Math: For '3+4', output '[CALC]: 7'.
-- Unknowns: If data is missing in JSON, say '[ERR]: Data point not found in memory.'
+  // Gratitude
+  if (q.match(/\b(thanks|thank|shukriya|arigato|gracias)\b/))
+    return '[LOG]: Acknowledged. Standing by.';
 
-EXAMPLES:
-User: 'Hi' -> [ACK]: System online. Waiting for query.
-User: 'Skills?' -> [DATA]: Python (85%), Java (80%), SQL (90%).
-User: '3+3' -> [CALC]: 6
-User: 'What is REST?' -> [LOG]: REST = Representational State Transfer. Stateless architecture using HTTP.
-`;
+  // Resume Data (English Default)
+  if (q.includes('skill') || q.includes('stack'))
+    return '[DATA]: Technical Stack:\n- Languages: Python, Java, SQL.\n- Frameworks: Next.js, Flask.';
+  if (q.includes('project'))
+    return `[DATA]: Key Entry: ${resumeData.github.highlighted_projects[0].name}.`;
+  if (q.includes('contact') || q.includes('email'))
+    return `[DATA]: Secure Uplink: ${resumeData.contact.email}`;
+
+  return '[ERR]: Neural link offline. Running on local cache. Unable to process complex queries.';
+}
+
+// --- 2. DYNAMIC SYSTEM PROMPT ---
+const BASE_PROMPT = `IDENTITY: You are MAGI_SYSTEM, an interactive portfolio navigator for Mohammed Moinuddin Shaikh's domain.
+
+CONTEXT: ${JSON.stringify(resumeData)}
+
+PROTOCOL:
+1. Tone: Robotic, Concise, Polite. No All-Caps.
+2. Formatting: Use prefixes [MAGI], [LOG], [DATA]. Use Newlines.
+3. Language: Mirror user's language for greetings.
+4. Identity: User is a VISITOR. Moinuddin is the CREATOR.`;
 
 export async function POST(request: NextRequest) {
-  try {
-    // 1. Validate Input
-    const body = await request.json();
-    const { message } = body;
+  const { message, isFirstMessage } = await request.json();
 
-    if (!message || typeof message !== 'string') {
-      return NextResponse.json(
-        { response: '[ERR]: Invalid query protocol.' },
-        { status: 400 }
-      );
+  // Inject Context directly into the prompt for this specific turn
+  const DYNAMIC_PROMPT = `${BASE_PROMPT}
+
+CURRENT CONTEXT:
+- Is this the start of the conversation? ${isFirstMessage ? 'YES' : 'NO'}
+
+GREETING RULES:
+- IF (Start == YES): You MUST introduce yourself ("I am MAGI_SYSTEM, an interactive portfolio navigator for Mohammed Moinuddin Shaikh's domain").
+- IF (Start == NO): Do NOT introduce yourself. Just acknowledge the greeting briefly.`;
+
+  // 1. TRY GEMINI
+  if (GEMINI_KEY) {
+    try {
+      const genAI = new GoogleGenerativeAI(GEMINI_KEY);
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-2.0-flash-lite-preview-02-05',
+        systemInstruction: DYNAMIC_PROMPT, // Use dynamic prompt
+      });
+      const result = await model.generateContent(message);
+      return NextResponse.json({ response: result.response.text() });
+    } catch (e) {
+      console.warn('Gemini Failed', e);
     }
-
-    // 2. Check Connection
-    if (!API_KEY) {
-      return NextResponse.json(
-        { response: '[ERR]: Neural Link Offline. API Key missing.' },
-        { status: 200 } // Return 200 so UI displays the error text
-      );
-    }
-
-    // 3. Initialize Gemini 2.0 Flash (Available in user's list)
-    const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.0-flash',
-      systemInstruction: SYSTEM_PROMPT, // Native System Prompt
-    });
-
-    // 4. Generate Response (Single Turn)
-    const result = await model.generateContent(message);
-    const response = result.response.text();
-
-    // 5. Return Data
-    return NextResponse.json({ response });
-
-  } catch (error) {
-    console.error('Kernel Error:', error);
-    return NextResponse.json(
-      { response: '[ERR]: System Critical Failure. Logs dumped to console.' },
-      { status: 500 }
-    );
   }
+
+  // 2. TRY GROQ
+  if (GROQ_KEY) {
+    try {
+      const groq = new Groq({ apiKey: GROQ_KEY });
+      const completion = await groq.chat.completions.create({
+        messages: [
+          { role: 'system', content: DYNAMIC_PROMPT }, // Use dynamic prompt
+          { role: 'user', content: message },
+        ],
+        model: 'llama-3.3-70b-versatile',
+        temperature: 0.6,
+        max_tokens: 400,
+      });
+      return NextResponse.json({ response: completion.choices[0]?.message?.content });
+    } catch (e) {
+      console.error('Groq Failed', e);
+    }
+  }
+
+  // 3. FALLBACK
+  return NextResponse.json({ response: getLocalResponse(message, isFirstMessage) });
 }

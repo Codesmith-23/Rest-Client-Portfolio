@@ -44,12 +44,15 @@ export function AiChatPreview({ data }: AiChatPreviewProps) {
 
   const processQuery = async (query: string): Promise<string> => {
     try {
+      // Determine if this is the first message (no messages yet)
+      const isFirstMessage = messages.length === 0;
+      
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: query }),
+        body: JSON.stringify({ message: query, isFirstMessage }),
       });
 
       const data = await response.json();
