@@ -44,8 +44,3 @@ next-env.d.ts
 .kiro/
 kiro/
 
-# Ignore all md files
-*.md
-
-# But keep the README visible
-!README.md
