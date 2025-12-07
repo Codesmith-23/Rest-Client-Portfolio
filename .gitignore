@@ -43,3 +43,9 @@ next-env.d.ts
 # Kiro / AI Editor files
 .kiro/
 kiro/
+
+# Ignore all md files
+*.md
+
+# But keep the README visible
+!README.md
