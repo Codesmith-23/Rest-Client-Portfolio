@@ -16,8 +16,39 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio API Client",
-  description: "Interactive API-style portfolio showcasing developer skills",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://moinuddin.dev'),
+  title: {
+    default: "Moinuddin's Localhost | Portolio",
+    template: "%s | Moinuddin's Localhost"
+  },
+  description: "Interactive API-style portfolio showcasing developer skills and projects",
+  keywords: ["developer", "portfolio", "full stack", "web development", "API"],
+  authors: [{ name: "Mohammed Moinuddin Shaikh" }],
+  creator: "Mohammed Moinuddin Shaikh",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    title: "Moinuddin's Localhost | Portolio",
+    description: "Interactive API-style portfolio showcasing developer skills and projects",
+    siteName: "Moinuddin Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Moinuddin's Localhost | Portolio",
+    description: "Interactive API-style portfolio showcasing developer skills and projects",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

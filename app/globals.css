@@ -203,3 +203,18 @@
 }
 
 
+
+/* IMAGE PROTECTION LAYER */
+img {
+  /* Prevent dragging and highlighting */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  
+  /* Prevent Context Menu (Long Press) on Mobile */
+  -webkit-touch-callout: none;
+  
+  /* CRITICAL: Make image 'invisible' to clicks */
+  /* Clicks will pass through to the parent Div/Card */
+  pointer-events: none;
+}
