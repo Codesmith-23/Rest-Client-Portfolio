@@ -19,6 +19,14 @@ interface ProfileCardProps {
 }
 
 export function ProfileCard({ user, experience, skillsCategories, languageStats, startAnimation = true }: ProfileCardProps) {
+  // Helper function to get clean initials (First + Last)
+  const getInitials = (name: string) => {
+    const parts = name.trim().split(' ');
+    if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+    // Take first char of first name + first char of last name
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  };
+
   return (
     <div className="min-h-full p-4 md:p-6 pb-24 max-w-6xl mx-auto">
       {/* Header Section with Text Scramble */}
@@ -39,7 +47,7 @@ export function ProfileCard({ user, experience, skillsCategories, languageStats,
                 <Avatar className="relative w-32 h-32 border-4 border-white/20 ring-4 ring-white/10 overflow-hidden rounded-full">
                   <AvatarImage src={user.avatar_url} alt={user.name} loading="eager" className="object-cover aspect-square" />
                   <AvatarFallback className="text-3xl bg-slate-800 text-white">
-                    {user.name.split(' ').map(n => n[0]).join('')}
+                    {getInitials(user.name)}
                   </AvatarFallback>
                 </Avatar>
               </div>

@@ -55,7 +55,7 @@
     "Tools & DevOps": [
       { "name": "Git & GitHub", "percent": 90, "icon": "GitBranch" },
       { "name": "AWS (Cloud Ops)", "percent": 70, "icon": "Cloud" },
-      { "name": "Jira", "percent": 40, "icon": "Trello" },
+      { "name": "Swagger", "percent": 40, "icon": "Trello" },
       { "name": "CI / CD", "percent": 90, "icon": "Workflow" }
 
     ]
@@ -79,7 +79,7 @@
         "image": "/projects/deepfake.png"
       },
       {
-        "name": "Facial Recognition System",
+        "name": "Facial Recognition Attendance System",
         "description": "Biometric attendance system with advanced liveness detection to prevent anti-spoofing attacks.",
         "tech": ["Python", "OpenCV", "dlib", "Computer Vision"],
         "repo_url": "https://github.com/Codesmith-23/Facial-Recognition-Attendance-System-with-liveness-check",
@@ -108,7 +108,7 @@
         "tech": ["Next.js", "Tailwind CSS", "Shadcn UI"],
         "repo_url": "https://github.com/Codesmith-23",
         "demo_url": null,
-        "image": "/projects/portfolio.png"
+        "image": "/projects/portfolio.jpg"
       },
       {
         "name": "Gesture Language Translator",
