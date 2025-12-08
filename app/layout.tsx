@@ -16,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://moinuddin.dev'),
+  metadataBase: new URL('https://moinuddin.vercel.app'),
   title: {
     default: "Moinuddin's Localhost | Portolio",
     template: "%s | Moinuddin's Localhost"
