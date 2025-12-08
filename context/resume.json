@@ -15,7 +15,29 @@
       "college": "M.H. Saboo Siddik College of Engineering",
       "year": "2026 Batch",
       "cgpa": "8.64"
-    }
+    },
+    "certifications": [
+      {
+        "name": "IBM AI Developer",
+        "issuer": "IBM",
+        "url": "https://www.coursera.org/account/accomplishments/specialization/DXV6Y7KCE4DL"
+      },
+      {
+        "name": "AWS Cloud Operations",
+        "issuer": "AWS Academy",
+        "url": "https://www.credly.com/badges/ae7723e4-36d2-4585-8907-a16c73d7a5c5/public_url?trk=public_profile_see-credential"
+      },
+      {
+        "name": "AWS ML Foundations",
+        "issuer": "AWS Academy",
+        "url": "https://www.credly.com/badges/2cc5dc24-f9d0-40c8-a698-58a47afde5db/public_url?trk=public_profile_see-credential"
+      },
+      {
+        "name": "AWS ML for NLP",
+        "issuer": "AWS Academy",
+        "url": "https://www.credly.com/badges/be1cf7cd-3dde-4743-b5f8-a19281c8591a/public_url?trk=public_profile_see-credential"
+      }
+    ]
   },
   "experience": [
     {

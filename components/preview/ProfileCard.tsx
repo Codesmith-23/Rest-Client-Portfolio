@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TextScramble } from '@/components/animations/TextScramble';
 import { TechMarquee } from '@/components/animations/TechMarquee';
+import { LiveMetricsGraph } from '@/components/ui/LiveMetricsGraph';
 import { Download, MapPin, GraduationCap, Briefcase, Circle } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 
@@ -189,36 +190,72 @@ export function ProfileCard({ user, experience, skillsCategories, languageStats,
         </Card>
       </div>
 
-      {/* Education & Download */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Education & Certifications Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        {/* Left Column - Education + Live Graph */}
+        <div className="space-y-6">
+          <Card className="bg-slate-900 border-slate-800 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <GraduationCap className="w-5 h-5 text-blue-400" />
+              <h3 className="text-sm font-bold text-slate-400 font-mono uppercase tracking-wider">ACADEMIC_LOG</h3>
+            </div>
+            <div className="space-y-3">
+              <p className="text-base font-semibold text-slate-100">{user.education.degree}</p>
+              <p className="text-sm text-slate-400">{user.education.college}</p>
+              <div className="flex gap-2 mt-3 flex-wrap">
+                <Badge variant="outline" className="text-xs border-slate-600 font-mono">{user.education.year}</Badge>
+                <Badge variant="outline" className="text-xs border-green-600 text-green-400 font-mono">CGPA: {user.education.cgpa}</Badge>
+              </div>
+            </div>
+          </Card>
+
+          {/* Live Metrics Graph */}
+          <LiveMetricsGraph />
+        </div>
+
+        {/* Right Column - Certifications */}
         <Card className="bg-slate-900 border-slate-800 p-6">
           <div className="flex items-center gap-2 mb-4">
-            <GraduationCap className="w-5 h-5 text-blue-400" />
-            <h3 className="text-lg font-bold text-slate-200 font-mono">Education</h3>
+            <LucideIcons.Award className="w-5 h-5 text-blue-400" />
+            <h3 className="text-sm font-bold text-slate-400 font-mono uppercase tracking-wider">COMPLIANCE_CERTS</h3>
           </div>
-          <div className="space-y-2">
-            <p className="text-sm font-semibold text-slate-100">{user.education.degree}</p>
-            <p className="text-xs text-slate-400">{user.education.college}</p>
-            <div className="flex gap-2 mt-3 flex-wrap">
-              <Badge variant="outline" className="text-xs border-slate-600 font-mono">{user.education.year}</Badge>
-              <Badge variant="outline" className="text-xs border-slate-600 font-mono">CGPA: {user.education.cgpa}</Badge>
-            </div>
+          <div className="space-y-3">
+            {user.certifications.map((cert, index) => (
+              <a
+                key={index}
+                href={cert.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 p-3 bg-slate-900/50 border border-slate-800 rounded-md hover:border-green-500/30 transition-all group"
+              >
+                <LucideIcons.CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-slate-200 text-sm md:text-base">{cert.name}</p>
+                  <p className="text-xs text-slate-500 font-mono">{cert.issuer}</p>
+                </div>
+              </a>
+            ))}
           </div>
-        </Card>
-
-        <Card className="bg-slate-900 border-slate-800 p-6 flex items-center justify-center">
-          <Button
-            asChild
-            size="lg"
-            className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold shadow-lg"
-          >
-            <a href="/resume.pdf" download>
-              <Download className="w-5 h-5 mr-2" />
-              Download Resume
-            </a>
-          </Button>
         </Card>
       </div>
+
+      {/* Full-Width Download Button */}
+      <Button
+        asChild
+        size="lg"
+        className="w-full h-14 bg-green-600 hover:bg-green-500 text-black font-bold uppercase tracking-widest font-mono shadow-lg shadow-green-900/20 transition-all"
+      >
+        <a 
+          href="/resume.pdf" 
+          download
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-3"
+        >
+          <span>DOWNLOAD_FULL_LOGS (RESUME.PDF)</span>
+          <Download className="w-5 h-5" />
+        </a>
+      </Button>
     </div>
   );
 }

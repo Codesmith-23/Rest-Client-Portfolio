@@ -130,7 +130,7 @@ export function ConsoleDrawer() {
             </div>
             <div className="flex items-center gap-2">
               <Activity className="w-3 h-3" />
-              <span>TRAFFIC: {visitCount.toLocaleString()}</span>
+              <span>Visitor Count: {visitCount.toLocaleString()}</span>
             </div>
           </div>
 

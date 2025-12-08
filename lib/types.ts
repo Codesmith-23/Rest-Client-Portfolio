@@ -16,6 +16,13 @@ export interface User {
   summary: string;
   badges: string[];
   education: Education;
+  certifications: Certification[];
+}
+
+export interface Certification {
+  name: string;
+  issuer: string;
+  url: string;
 }
 
 export interface Education {
