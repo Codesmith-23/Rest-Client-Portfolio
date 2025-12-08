@@ -2,13 +2,69 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useLogContext } from '@/context/LogContext';
-import { ChevronUp, ChevronDown, Circle, GripHorizontal } from 'lucide-react';
+import { ChevronUp, ChevronDown, Circle, GripHorizontal, Activity, Zap, Clock } from 'lucide-react';
 
 export function ConsoleDrawer() {
   const [isExpanded, setIsExpanded] = useState(false);
   const logContainerRef = useRef<HTMLDivElement>(null);
   const { logs } = useLogContext();
   const [startY, setStartY] = useState<number | null>(null);
+  const [visitCount, setVisitCount] = useState<number>(0);
+  const [currentTime, setCurrentTime] = useState<string>('');
+  const [timezone, setTimezone] = useState<string>('');
+
+  // Fetch visit count on mount with unique visitor logic
+  useEffect(() => {
+    const initVisits = async () => {
+      try {
+        const hasVisited = localStorage.getItem('has_visited');
+        
+        // Increment only if this is a new visitor
+        const response = await fetch('/api/system/visit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ increment: !hasVisited }),
+        });
+        
+        const data = await response.json();
+        setVisitCount(data.count);
+        
+        // Mark as visited for next time
+        if (!hasVisited) {
+          localStorage.setItem('has_visited', 'true');
+        }
+      } catch (error) {
+        console.error('Failed to fetch visit count:', error);
+        setVisitCount(1024);
+      }
+    };
+    
+    initVisits();
+  }, []);
+
+  // Update clock every second
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', { 
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      const tz = now.toLocaleTimeString('en-US', { timeZoneName: 'short' }).split(' ')[2] || 'UTC';
+      
+      setCurrentTime(time);
+      setTimezone(tz);
+    };
+
+    updateClock(); // Initial call
+    const interval = setInterval(updateClock, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Auto-scroll to bottom when new logs arrive
   useEffect(() => {
@@ -56,7 +112,7 @@ export function ConsoleDrawer() {
       {!isExpanded ? (
         // Collapsed State: Status Bar
         <div 
-          className="h-10 md:h-8 bg-slate-900 border-t border-slate-800 px-3 md:px-4 flex items-center justify-between touch-none"
+          className="flex items-center justify-between px-4 h-9 bg-slate-950 border-t border-slate-800 text-xs font-mono text-slate-400 touch-none relative"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -66,24 +122,45 @@ export function ConsoleDrawer() {
             <GripHorizontal className="w-8 h-1.5 text-slate-600" />
           </div>
 
-          <div className="flex items-center gap-3 md:gap-6 text-xs font-mono">
+          {/* Left Side - Always Visible */}
+          <div className="flex items-center gap-3 md:gap-4">
             <div className="flex items-center gap-2">
               <Circle className="w-2 h-2 fill-green-400 text-green-400 animate-pulse" />
-              <span className="text-slate-300 hidden sm:inline">System: Online</span>
-              <span className="text-slate-300 sm:hidden">Online</span>
+              <span className="text-slate-300">System: Online</span>
             </div>
-            <div className="flex items-center gap-2 text-slate-400 hidden sm:flex">
-              <span>⚡</span>
-              <span>Latency: 24ms</span>
+            <div className="flex items-center gap-2">
+              <Activity className="w-3 h-3" />
+              <span>TRAFFIC: {visitCount.toLocaleString()}</span>
             </div>
           </div>
+
+          {/* Right Side - Desktop Only */}
+          <div className="hidden md:flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Zap className="w-3 h-3" />
+              <span>Latency: 24ms</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-3 h-3" />
+              <span>{currentTime} {timezone}</span>
+            </div>
+            <button
+              onClick={() => setIsExpanded(true)}
+              className="flex items-center gap-1 hover:text-slate-200 transition-colors"
+              aria-label="Expand console"
+            >
+              <span>Console</span>
+              <ChevronUp className="w-3 h-3" />
+            </button>
+          </div>
+
+          {/* Mobile Toggle Button */}
           <button
             onClick={() => setIsExpanded(true)}
-            className="flex items-center gap-2 text-xs font-mono text-slate-400 hover:text-slate-200 transition-colors min-h-10 md:min-h-0 px-2"
+            className="md:hidden flex items-center"
             aria-label="Expand console"
           >
-            <span className="hidden sm:inline">Console</span>
-            <ChevronUp className="w-4 h-4 md:w-3 md:h-3" />
+            <ChevronUp className="w-4 h-4" />
           </button>
         </div>
       ) : (
