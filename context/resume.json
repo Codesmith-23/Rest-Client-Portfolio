@@ -106,8 +106,8 @@
         "name": "Portfolio API Client",
         "description": "Interactive Developer Portfolio designed as a Postman-style API Client using Next.js 14.",
         "tech": ["Next.js", "Tailwind CSS", "Shadcn UI"],
-        "repo_url": "https://github.com/Codesmith-23",
-        "demo_url": null,
+        "repo_url": "https://github.com/Codesmith-23/Rest-Client-Portfolio",
+        "demo_url": "https://moinuddin.vercel.app",
         "image": "/projects/portfolio.jpg"
       },
       {
