@@ -82,7 +82,7 @@ export function SocialsPreview({ data }: SocialsPreviewProps) {
   const floatingNodes = generateNodes(isMobile || prefersReducedMotion ? 5 : 20);
 
   return (
-    <div className="h-full w-full flex flex-col items-start md:items-center justify-start md:justify-center relative overflow-y-auto bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-3 md:p-6 pt-20 md:pt-6 pb-32">
+    <div className="h-full w-full relative overflow-y-auto bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 md:p-8 pb-32">
       {/* Network Background - Floating Data Nodes */}
       {!prefersReducedMotion && (
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -110,23 +110,25 @@ export function SocialsPreview({ data }: SocialsPreviewProps) {
         </div>
       )}
 
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
-        className="text-center mb-8"
-      >
-        <h2 className="text-2xl md:text-4xl font-bold text-green-400 font-mono mb-2 md:mb-3">
-          NETWORK_HANDSHAKE
-        </h2>
-        <p className="text-slate-400 text-sm md:text-lg font-mono">
-          Establish connection to external platforms
-        </p>
-      </motion.div>
+      {/* Content Container - Centered */}
+      <div className="w-full max-w-6xl mx-auto h-full flex flex-col justify-center relative z-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.5 }}
+          className="text-center mb-8"
+        >
+          <h2 className="text-2xl md:text-4xl font-bold text-green-400 font-mono mb-2 md:mb-3">
+            NETWORK_HANDSHAKE
+          </h2>
+          <p className="text-slate-400 text-sm md:text-lg font-mono">
+            Establish connection to external platforms
+          </p>
+        </motion.div>
 
-      {/* Social Cards - Responsive Layout */}
-      <div className="w-full flex flex-col md:flex-row gap-6 items-center flex-wrap justify-center max-w-6xl relative z-10">
+        {/* Social Cards - CSS Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full">
         {socialPlatforms.map((platform, index) => {
           const Icon = platform.icon;
           const Icon2 = platform.icon2;
@@ -138,10 +140,10 @@ export function SocialsPreview({ data }: SocialsPreviewProps) {
               initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: prefersReducedMotion ? 0 : index * 0.15, duration: prefersReducedMotion ? 0 : 0.5 }}
-              className="w-[90%] md:w-80 max-w-sm mx-auto"
+              className="w-full h-auto"
             >
               <Card 
-                className={`bg-slate-900/80 md:backdrop-blur-sm border-2 ${platform.borderColor} shadow-xl ${platform.glowColor} hover:-translate-y-2 transition-all duration-300 ${platform.hoverGlow} group`}
+                className={`bg-slate-900/80 md:backdrop-blur-sm border-2 ${platform.borderColor} shadow-xl ${platform.glowColor} hover:-translate-y-2 transition-all duration-300 ${platform.hoverGlow} group h-full min-h-[280px]`}
               >
                 <CardContent className="p-4 md:p-8">
                   {/* Icon Header */}
@@ -193,17 +195,18 @@ export function SocialsPreview({ data }: SocialsPreviewProps) {
         })}
       </div>
 
-      {/* Footer Info */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: prefersReducedMotion ? 0 : 0.6 }}
-        className="mt-12 text-center"
-      >
-        <p className="text-xs text-slate-500 font-mono">
-          Click any card to establish external connection
-        </p>
-      </motion.div>
+        {/* Footer Info */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: prefersReducedMotion ? 0 : 0.6 }}
+          className="mt-8 text-center"
+        >
+          <p className="text-xs text-slate-500 font-mono">
+            Click any card to establish external connection
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 }

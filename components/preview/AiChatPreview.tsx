@@ -129,7 +129,7 @@ export function AiChatPreview({ data }: AiChatPreviewProps) {
   };
 
   return (
-    <div className="relative h-[calc(100dvh-140px)] w-full flex flex-col overflow-hidden bg-slate-950 isolate">
+    <div className="relative h-[calc(100dvh-64px)] md:h-full w-full flex flex-col overflow-hidden bg-slate-950 isolate">
       {/* Layer A: Background Animation (z-0) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Infinite Drifting Grid */}
@@ -156,13 +156,13 @@ export function AiChatPreview({ data }: AiChatPreviewProps) {
       {/* Layer B: Content (z-10) - Always on top */}
       <div className="relative z-10 flex flex-col h-full">
         {/* Header */}
-        <div className="flex-none bg-slate-900/80 md:backdrop-blur-sm border-b border-green-500/30 p-4">
+        <div className="flex-none bg-slate-900/80 md:backdrop-blur-sm border-b border-green-500/30 p-3 md:p-4">
           <h2 className="text-lg font-bold text-green-400 font-mono">AI_TERMINAL</h2>
           <p className="text-xs text-slate-500 font-mono mt-1">POST /ai/query - Interactive Query System</p>
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto min-h-0 py-2 md:py-6 px-4 md:px-6 scrollbar-hide">
+        <div className="flex-1 flex-grow basis-0 overflow-y-auto min-h-0 p-2 md:py-6 md:px-6 scrollbar-hide">
         {messages.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center h-full">
