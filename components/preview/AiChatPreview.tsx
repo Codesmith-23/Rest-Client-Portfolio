@@ -129,7 +129,7 @@ export function AiChatPreview({ data }: AiChatPreviewProps) {
   };
 
   return (
-    <div className="relative h-[calc(100dvh-64px)] md:h-full w-full flex flex-col overflow-hidden bg-slate-950 isolate">
+    <div className="relative h-[calc(100dvh-100px)] md:h-full w-full flex flex-col overflow-hidden bg-slate-950 isolate">
       {/* Layer A: Background Animation (z-0) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Infinite Drifting Grid */}
@@ -162,7 +162,7 @@ export function AiChatPreview({ data }: AiChatPreviewProps) {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 flex-grow basis-0 overflow-y-auto min-h-0 p-2 md:py-6 md:px-6 scrollbar-hide">
+        <div className="flex-1 overflow-y-auto min-h-0 p-4 pb-0 md:pb-4 md:py-6 md:px-6 scrollbar-hide">
         {messages.length === 0 ? (
           /* Empty State */
           <div className="flex flex-col items-center justify-center h-full">

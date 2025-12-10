@@ -110,8 +110,8 @@ export function SocialsPreview({ data }: SocialsPreviewProps) {
         </div>
       )}
 
-      {/* Content Container - Centered */}
-      <div className="w-full max-w-6xl mx-auto h-full flex flex-col justify-center relative z-10">
+      {/* Content Container - Mobile: Top-aligned, Desktop: Centered */}
+      <div className="w-full max-w-6xl mx-auto min-h-full flex flex-col justify-start pt-24 pb-10 md:h-full md:justify-center md:pt-0 md:pb-0 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: prefersReducedMotion ? 0 : -20 }}
