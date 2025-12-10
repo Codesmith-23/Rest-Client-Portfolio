@@ -4,6 +4,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { LogProvider } from "@/context/LogContext";
 import { ConsoleDrawer } from "@/components/ui/ConsoleDrawer";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next"; 
 
 const inter = Inter({
   variable: "--font-inter",
@@ -75,6 +77,8 @@ export default function RootLayout({
           {children}
           <ConsoleDrawer />
           <Toaster />
+          <Analytics />
+          <SpeedInsights />
         </LogProvider>
       </body>
     </html>
