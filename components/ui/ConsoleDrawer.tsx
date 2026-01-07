@@ -13,28 +13,20 @@ export function ConsoleDrawer() {
   const [currentTime, setCurrentTime] = useState<string>('');
   const [timezone, setTimezone] = useState<string>('');
 
-  // Fetch visit count on mount with unique visitor logic
+  // Fetch visit count on mount with session-based tracking
   useEffect(() => {
     const initVisits = async () => {
       try {
-        const hasVisited = localStorage.getItem('has_visited');
-        
-        // Increment only if this is a new visitor
+        // Server handles session logic via cookies
         const response = await fetch('/api/system/visit', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ increment: !hasVisited }),
         });
         
         const data = await response.json();
         setVisitCount(data.count);
-        
-        // Mark as visited for next time
-        if (!hasVisited) {
-          localStorage.setItem('has_visited', 'true');
-        }
       } catch (error) {
         console.error('Failed to fetch visit count:', error);
         setVisitCount(1024);

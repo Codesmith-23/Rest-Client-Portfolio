@@ -36,6 +36,12 @@
         "name": "AWS ML for NLP",
         "issuer": "AWS Academy",
         "url": "https://www.credly.com/badges/be1cf7cd-3dde-4743-b5f8-a19281c8591a/public_url?trk=public_profile_see-credential"
+      },
+      {
+        "name": "AWS Cloud Quest: Cloud Practitioner",
+        "issuer": "AWS Academy",
+        "url": "https://www.credly.com/badges/03f457eb-f285-418a-a59b-a942348ff706/public_url"
+        
       }
     ]
   },
@@ -134,7 +140,7 @@
       },
       {
         "name": "Gesture Language Translator",
-        "description": "Smart System to simplify communication between for special individuals",
+        "description": "Smart System to bridge communication gaps between individuals who use sign language and those who do not, promoting greater inclusivity.",
         "tech": ["Python", "OpenCV", "dlib", "Computer Vision"],
         "repo_url": "https://github.com/Codesmith-23/Facial-Recognition-Attendance-System-with-liveness-check",
         "demo_url": null,
