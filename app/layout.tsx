@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     default: "Moinuddin's Localhost | Portfolio",
     template: "%s | Moinuddin's Localhost"
   },
-  description: "Interactive API-style portfolio showcasing developer skills and projects",
+  description: "Explore my work through a live API dashboard. Dive into my full-stack apps, AWS cloud backends, and AI engines.",
   keywords: ["developer", "portfolio", "full stack", "web development", "API"],
   authors: [{ name: "Mohammed Moinuddin Shaikh" }],
   creator: "Mohammed Moinuddin Shaikh",
@@ -32,13 +32,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     title: "Moinuddin's Localhost | Portfolio",
-    description: "Interactive API-style portfolio showcasing developer skills and projects",
+    description: "Explore my work through a live API dashboard. Dive into my full-stack apps, AWS cloud backends, and AI engines.",
     siteName: "Moinuddin Portfolio",
   },
   twitter: {
     card: "summary_large_image",
     title: "Moinuddin's Localhost | Portfolio",
-    description: "Interactive API-style portfolio showcasing developer skills and projects",
+    description: "Explore my work through a live API dashboard. Dive into my full-stack apps, AWS cloud backends, and AI engines.",
   },
   robots: {
     index: true,
