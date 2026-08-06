@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TextScramble } from '@/components/animations/TextScramble';
 import { TechMarquee } from '@/components/animations/TechMarquee';
-import { LiveMetricsGraph } from '@/components/ui/LiveMetricsGraph';
+import { LiveTerminal } from '@/components/ui/LiveTerminal';
 import { ExperienceTimeline } from '@/components/preview/ExperienceTimeline';
 import { Download, MapPin, GraduationCap, Circle } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
@@ -189,8 +189,8 @@ export function ProfileCard({ user, experienceTimeline, skillsCategories, langua
             </div>
           </Card>
 
-          {/* Live Metrics Graph */}
-          <LiveMetricsGraph />
+          {/* Live Terminal */}
+          <LiveTerminal />
         </div>
 
         {/* Right Column - Certifications */}

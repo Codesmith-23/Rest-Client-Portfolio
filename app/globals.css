@@ -238,3 +238,30 @@ img {
   scrollbar-width: thin;
   scrollbar-color: rgb(51 65 85) transparent;
 }
+
+/* Terminal scrollbar — hidden on mobile, slim on desktop */
+@media (min-width: 768px) {
+  .scrollbar-terminal::-webkit-scrollbar {
+    width: 3px;
+  }
+  .scrollbar-terminal::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-terminal::-webkit-scrollbar-thumb {
+    background-color: rgb(31 41 55); /* gray-800 */
+    border-radius: 9999px;
+  }
+  .scrollbar-terminal::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(55 65 81); /* gray-700 */
+  }
+}
+@media (max-width: 767px) {
+  .scrollbar-terminal::-webkit-scrollbar {
+    display: none;
+  }
+}
+/* Firefox */
+.scrollbar-terminal {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(31 41 55) transparent;
+}

@@ -20,7 +20,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://moinuddin.vercel.app'),
   title: {
-    default: "Moinuddin's Localhost | Portolio",
+    default: "Moinuddin's Localhost | Portfolio",
     template: "%s | Moinuddin's Localhost"
   },
   description: "Interactive API-style portfolio showcasing developer skills and projects",
@@ -31,13 +31,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    title: "Moinuddin's Localhost | Portolio",
+    title: "Moinuddin's Localhost | Portfolio",
     description: "Interactive API-style portfolio showcasing developer skills and projects",
     siteName: "Moinuddin Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Moinuddin's Localhost | Portolio",
+    title: "Moinuddin's Localhost | Portfolio",
     description: "Interactive API-style portfolio showcasing developer skills and projects",
   },
   robots: {
