@@ -218,3 +218,23 @@ img {
   /* Clicks will pass through to the parent Div/Card */
   pointer-events: none;
 }
+
+/* Slim dashboard scrollbar — used on scrollable panels */
+.scrollbar-dashboard::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-dashboard::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-dashboard::-webkit-scrollbar-thumb {
+  background-color: rgb(51 65 85); /* slate-700 */
+  border-radius: 9999px;
+}
+.scrollbar-dashboard::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(71 85 105); /* slate-600 */
+}
+/* Firefox */
+.scrollbar-dashboard {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(51 65 85) transparent;
+}

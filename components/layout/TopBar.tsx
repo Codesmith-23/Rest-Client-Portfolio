@@ -1,7 +1,18 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+// Slides down from above the viewport
+const topBarVariants = {
+  hidden: { y: '-100%', opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: { type: 'spring' as const, stiffness: 120, damping: 20 },
+  },
+};
 
 interface TopBarProps {
   url: string;
@@ -11,7 +22,10 @@ interface TopBarProps {
 
 export function TopBar({ url, method, onMobileMenuToggle }: TopBarProps) {
   return (
-    <div className="h-16 bg-slate-900 border-b border-slate-800 flex items-center gap-3 px-4">
+    <motion.div
+      variants={topBarVariants}
+      className="h-16 bg-slate-900 border-b border-slate-800 flex items-center gap-3 px-4"
+    >
       {/* Hamburger Menu Button (Mobile Only) */}
       <button
         onClick={onMobileMenuToggle}
@@ -40,6 +54,6 @@ export function TopBar({ url, method, onMobileMenuToggle }: TopBarProps) {
         readOnly
         className="flex-1 bg-slate-800 text-slate-200 px-4 py-2 rounded border border-slate-700 focus:outline-none focus:border-slate-600 font-mono text-sm"
       />
-    </div>
+    </motion.div>
   );
 }

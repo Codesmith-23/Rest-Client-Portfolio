@@ -3,6 +3,7 @@
 export interface ResumeData {
   user: User;
   experience: Experience[];
+  experience_timeline: ExperienceEntry[];
   skills_categories: SkillsCategories;
   github: GitHub;
   contact: Contact;
@@ -38,6 +39,15 @@ export interface Experience {
   type: string;
   date: string;
   description: string;
+}
+
+export interface ExperienceEntry {
+  title: string;
+  company: string;
+  date: string;
+  points: string[];
+  link?: string;
+  linkText?: string;
 }
 
 export interface SkillsCategories {

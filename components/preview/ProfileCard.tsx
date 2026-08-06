@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { User, Experience, SkillsCategories } from '@/lib/types';
+import { User, ExperienceEntry, SkillsCategories } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -8,18 +8,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { TextScramble } from '@/components/animations/TextScramble';
 import { TechMarquee } from '@/components/animations/TechMarquee';
 import { LiveMetricsGraph } from '@/components/ui/LiveMetricsGraph';
-import { Download, MapPin, GraduationCap, Briefcase, Circle } from 'lucide-react';
+import { ExperienceTimeline } from '@/components/preview/ExperienceTimeline';
+import { Download, MapPin, GraduationCap, Circle } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 
 interface ProfileCardProps {
   user: User;
-  experience: Experience[];
+  experienceTimeline: ExperienceEntry[];
   skillsCategories: SkillsCategories;
   languageStats: Array<{ name: string; percent: number; color: string }>;
   startAnimation?: boolean;
 }
 
-export function ProfileCard({ user, experience, skillsCategories, languageStats, startAnimation = true }: ProfileCardProps) {
+export function ProfileCard({ user, experienceTimeline, skillsCategories, languageStats, startAnimation = true }: ProfileCardProps) {
   // Helper function to get clean initials (First + Last)
   const getInitials = (name: string) => {
     const parts = name.trim().split(' ');
@@ -116,31 +117,10 @@ export function ProfileCard({ user, experience, skillsCategories, languageStats,
       <div className="mb-8">
         <Card className="bg-slate-900 border-slate-800 p-6">
           <div className="flex items-center gap-2 mb-6">
-            <Briefcase className="w-5 h-5 text-blue-400" />
+            <LucideIcons.Briefcase className="w-5 h-5 text-blue-400" />
             <h2 className="text-2xl font-bold text-slate-100 font-mono">Experience</h2>
           </div>
-          
-          <div className="space-y-6">
-            {experience.map((exp, index) => (
-              <div
-                key={index}
-                className="relative pl-8 border-l-2 border-slate-700 pb-6 last:pb-0"
-              >
-                <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-blue-500 border-4 border-slate-900" />
-                
-                <div className="space-y-2">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-lg font-bold text-slate-100">{exp.role}</h3>
-                      <p className="text-slate-400">{exp.company}</p>
-                    </div>
-                    <Badge variant="outline" className="font-mono text-xs whitespace-nowrap">{exp.date}</Badge>
-                  </div>
-                  <p className="text-sm text-slate-300 leading-relaxed">{exp.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <ExperienceTimeline entries={experienceTimeline} />
         </Card>
       </div>
 
@@ -214,27 +194,33 @@ export function ProfileCard({ user, experience, skillsCategories, languageStats,
         </div>
 
         {/* Right Column - Certifications */}
-        <Card className="bg-slate-900 border-slate-800 p-6">
-          <div className="flex items-center gap-2 mb-4">
+        <Card className="bg-slate-900 border-slate-800 p-6 flex flex-col">
+          <div className="flex items-center gap-2 mb-4 flex-shrink-0">
             <LucideIcons.Award className="w-5 h-5 text-blue-400" />
             <h3 className="text-sm font-bold text-slate-400 font-mono uppercase tracking-wider">COMPLIANCE_CERTS</h3>
           </div>
-          <div className="space-y-3">
-            {user.certifications.map((cert, index) => (
-              <a
-                key={index}
-                href={cert.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 bg-slate-900/50 border border-slate-800 rounded-md hover:border-green-500/30 transition-all group"
-              >
-                <LucideIcons.CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-slate-200 text-sm md:text-base">{cert.name}</p>
-                  <p className="text-xs text-slate-500 font-mono">{cert.issuer}</p>
-                </div>
-              </a>
-            ))}
+
+          {/* Scrollable list with bottom fade hint */}
+          <div className="relative flex-1 min-h-0">
+            <div className="overflow-y-auto max-h-[260px] space-y-3 scrollbar-dashboard pr-1">
+              {user.certifications.map((cert, index) => (
+                <a
+                  key={index}
+                  href={cert.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 bg-slate-900/50 border border-slate-800 rounded-md hover:border-green-500/30 transition-all group"
+                >
+                  <LucideIcons.CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-slate-200 text-sm md:text-base">{cert.name}</p>
+                    <p className="text-xs text-slate-500 font-mono">{cert.issuer}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
+            {/* Bottom fade — hints there is more to scroll */}
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-slate-900 to-transparent rounded-b-md" />
           </div>
         </Card>
       </div>

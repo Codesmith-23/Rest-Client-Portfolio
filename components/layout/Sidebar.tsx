@@ -2,8 +2,19 @@
 
 import { ChevronDown, ChevronRight, Folder } from 'lucide-react';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useLogContext } from '@/context/LogContext';
+
+// Slides in from left, fades in
+const sidebarVariants = {
+  hidden: { x: '-100%', opacity: 0 },
+  visible: {
+    x: 0,
+    opacity: 1,
+    transition: { type: 'spring' as const, stiffness: 120, damping: 22, delay: 0.1 },
+  },
+};
 
 interface SidebarProps {
   currentRequest: string;
@@ -38,7 +49,8 @@ export function Sidebar({
       )}
 
       {/* Sidebar */}
-      <aside
+      <motion.aside
+        variants={sidebarVariants}
         className={cn(
           'fixed top-0 left-0 h-full w-64 bg-slate-900 border-r border-slate-800 z-50 transition-transform duration-300',
           'md:translate-x-0', // Always visible on desktop
@@ -79,7 +91,7 @@ export function Sidebar({
                     isActive={currentRequest === 'user-profile'}
                     onClick={() => handleRequestClick('user-profile', '/v1/profile')}
                   />
-                  
+
                   {/* Projects */}
                   <RequestItem
                     id="github-repos"
@@ -123,7 +135,7 @@ export function Sidebar({
             </div>
           </div>
         </div>
-      </aside>
+      </motion.aside>
     </>
   );
 }

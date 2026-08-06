@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { JsonViewer } from '@/components/json/JsonViewer';
 import { ProfileCard } from '@/components/preview/ProfileCard';
@@ -11,25 +12,42 @@ import { SocialsPreview } from '@/components/preview/SocialsPreview';
 import { ResumeData } from '@/lib/types';
 import { Code2, Eye } from 'lucide-react';
 
+// Apple-style blur reveal: scale down from 1.05 → 1, blur resolves, fades in
+const heroRevealVariants = {
+  hidden: {
+    opacity: 0,
+    scale: 1.05,
+    filter: 'blur(10px)',
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      type: 'spring' as const,
+      stiffness: 100,
+      damping: 20,
+      // Fires after TopBar and Sidebar have landed (~0.3s in)
+      delay: 0.3,
+    },
+  },
+};
+
 interface MainStageProps {
   requestId: string;
   data: ResumeData;
-  isSystemReady?: boolean;
-  isLoading?: boolean;
-  error?: string | null;
 }
 
-export function MainStage({ requestId, data, isSystemReady = false, isLoading = false, error = null }: MainStageProps) {
+export function MainStage({ requestId, data }: MainStageProps) {
   const [showCode, setShowCode] = useState(false);
-  
-  // Determine which data to show based on request type
+
   const getJsonData = () => {
     switch (requestId) {
       case 'user-profile':
         return {
           user: data.user,
-          experience: data.experience,
-          skills: data.skills_categories
+          experience: data.experience_timeline,
+          skills: data.skills_categories,
         };
       case 'github-repos':
         return data.github.highlighted_projects;
@@ -42,25 +60,24 @@ export function MainStage({ requestId, data, isSystemReady = false, isLoading = 
           platforms: [
             { name: 'github', url: data.contact.github },
             { name: 'linkedin', url: data.contact.linkedin },
-            { name: 'instagram', url: data.contact.instagram }
-          ]
+            { name: 'instagram', url: data.contact.instagram },
+          ],
         };
       default:
         return data;
     }
   };
 
-  // Render preview content based on request type
   const renderPreview = () => {
     switch (requestId) {
       case 'user-profile':
         return (
-          <ProfileCard 
-            user={data.user} 
-            experience={data.experience}
+          <ProfileCard
+            user={data.user}
+            experienceTimeline={data.experience_timeline}
             skillsCategories={data.skills_categories}
             languageStats={data.github.stats.languages}
-            startAnimation={isSystemReady}
+            startAnimation={true}
           />
         );
       case 'github-repos':
@@ -80,30 +97,11 @@ export function MainStage({ requestId, data, isSystemReady = false, isLoading = 
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex-1 flex items-center justify-center bg-slate-950">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-4 border-slate-700 border-t-slate-400 rounded-full animate-spin" />
-          <p className="text-slate-400 text-sm">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex-1 flex items-center justify-center bg-slate-950">
-        <div className="max-w-md p-6 bg-slate-900 border border-red-500/30 rounded-lg">
-          <h3 className="text-red-400 font-semibold mb-2">Error</h3>
-          <p className="text-slate-300 text-sm">{error}</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex-1 bg-slate-950 overflow-hidden flex flex-col">
+    <motion.div
+      variants={heroRevealVariants}
+      className="flex-1 bg-slate-950 overflow-hidden flex flex-col"
+    >
       {/* Code Toggle Button */}
       <div className="bg-slate-900 border-b border-slate-800 px-4 py-2 flex justify-end">
         <Button
@@ -128,12 +126,8 @@ export function MainStage({ requestId, data, isSystemReady = false, isLoading = 
 
       {/* Content Area */}
       <div className="flex-1 overflow-auto">
-        {showCode ? (
-          <JsonViewer data={getJsonData()} />
-        ) : (
-          renderPreview()
-        )}
+        {showCode ? <JsonViewer data={getJsonData()} /> : renderPreview()}
       </div>
-    </div>
+    </motion.div>
   );
 }

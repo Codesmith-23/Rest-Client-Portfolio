@@ -14,13 +14,18 @@
       "degree": "B.E. Information Technology",
       "college": "M.H. Saboo Siddik College of Engineering",
       "year": "2026 Batch",
-      "cgpa": "8.64"
+      "cgpa": "8.85"
     },
     "certifications": [
       {
         "name": "IBM AI Developer",
         "issuer": "IBM",
         "url": "https://www.coursera.org/account/accomplishments/specialization/DXV6Y7KCE4DL"
+      },
+      {
+        "name": "AWS Capstone Project",
+        "issuer": "SmartBridge",
+        "url": "https://drive.google.com/file/d/1szXaXosFBZ_ic2frqN_ShKm8SSWSI_25/view?usp=drive_link"
       },
       {
         "name": "AWS Cloud Operations",
@@ -50,7 +55,7 @@
       "role": "Technical Head",
       "company": "ACM MHSSCE",
       "type": "Leadership",
-      "date": "July 2025 - Present",
+      "date": "July 2025 - May 2026",
       "description": "Spearheading technical initiatives, mentoring peers in Backend Architecture, and managing the deployment lifecycles of club projects."
     },
     {
@@ -61,30 +66,65 @@
       "description": "Focused on System Integration and Database Architecture. Integrated a custom AI Chatbot, optimized API data fetching strategies, and handled backend connectivity. Assisted with UI implementation."
     }
   ],
+  "experience_timeline": [
+    {
+      "title": "Freelance Full-Stack Engineer",
+      "company": "Independent Client",
+      "date": "Feb 2026 – May 2026",
+      "link": "https://ecommerce-nvaw.vercel.app",
+      "linkText": "View Live Project",
+      "points": [
+        "Designed and shipped two complete e-commerce web applications for a local apparel brand, taking the project from initial concept to live production.",
+        "Engineered an interactive T-shirt customization tool and integrated a dual-gateway checkout system (Stripe & Razorpay) to securely process real-time customer transactions.",
+        "Established a highly reliable deployment pipeline by containerizing the environment with Docker, backed by PostgreSQL (Neon) and MinIO for scalable cloud storage."
+      ]
+    },
+    {
+      "title": "AWS Cloud Capstone Trainee",
+      "company": "SmartBridge & AWS Partner Network",
+      "date": "Dec 2025 – Feb 2026",
+      "points": [
+        "Selected for an intensive, industry-sponsored training track focused on modern cloud infrastructure and Generative AI deployment.",
+        "Built SnapStream from the ground up—a highly available media streaming backend hosted on AWS (EC2, S3, DynamoDB) utilizing Gunicorn and Nginx.",
+        "Authored robust RESTful APIs using a strict Service-Repository pattern to cleanly separate business logic from data storage, achieving zero downtime during live stress testing."
+      ]
+    },
+    {
+      "title": "Mobile Development Intern",
+      "company": "M.S.D. Engineering",
+      "date": "Jan 2025 – Mar 2025",
+      "points": [
+        "Shipped core UI components and screen flows for a Flutter-based ed-tech mobile application.",
+        "Integrated a custom AI chatbot powered by the Gemini API to instantly answer student questions and reduce manual support tickets.",
+        "Architected the real-time database schema in Firebase Firestore to seamlessly sync course materials and track user milestones across devices."
+      ]
+    }
+  ],
   "skills_categories": {
     "Languages": [
-      { "name": "Java", "percent": 80, "icon": "Coffee" },
+      { "name": "Java", "percent": 40, "icon": "Coffee" },
       { "name": "Python", "percent": 85, "icon": "Snake" },
-      { "name": "SQL", "percent": 90, "icon": "Database" },
-      { "name": "JavaScript / TypeScript", "percent": 70, "icon": "Code" }
+      { "name": "SQL", "percent": 45, "icon": "Database" },
+      { "name": "JavaScript / TypeScript", "percent": 80, "icon": "Code" }
     ],
     "Backend": [
       { "name": "Node.js", "percent": 85, "icon": "Server" },
-      { "name": "MySQL", "percent": 80, "icon": "Database" },
+      { "name": "MySQL", "percent": 60, "icon": "Database" },
       { "name": "Flask", "percent": 70, "icon": "Flask" }
     ],
     "Frontend": [
       { "name": "Tailwind", "percent": 80, "icon": "Paintbrush" },
       { "name": "React", "percent": 70, "icon": "Atom" },
-      { "name": "Next.js", "percent": 55, "icon": "AppWindow" },
-      { "name": "Flutter", "percent": 40, "icon": "Smartphone" }
+      { "name": "Next.js", "percent": 80, "icon": "AppWindow" }
 
     ],
     "Tools & DevOps": [
       { "name": "Git & GitHub", "percent": 90, "icon": "GitBranch" },
       { "name": "AWS (Cloud Ops)", "percent": 70, "icon": "Cloud" },
       { "name": "Swagger", "percent": 40, "icon": "Trello" },
-      { "name": "CI / CD", "percent": 90, "icon": "Workflow" }
+      { "name": "CI / CD", "percent": 90, "icon": "Workflow" },
+      { "name": "Docker", "percent": 30, "icon": "" }
+
 
     ]
   },
@@ -99,11 +139,11 @@
     },
     "highlighted_projects": [
       {
-        "name": "AI Deepfake Detection",
-        "description": "Enterprise-grade backend detecting manipulated media using LSTM models and Flask APIs.",
+        "name": "Copyright Detection in Generative AI",
+        "description": "A microservices-based audio-visual pipeline designed to identify AI-generated media and copyright infringement with high precision",
         "tech": ["Python", "TensorFlow", "Flask", "Deep Learning"],
         "repo_url": "https://github.com/Codesmith-23/AI-Deepfake-Detection",
-        "demo_url": null,
+        "demo_url": "https://drive.google.com/file/d/1IwEKp30MkTQUe6zn7EeHvbG4--wgipu_/view?usp=sharing",
         "image": "/projects/deepfake.png"
       },
       {
@@ -139,12 +179,12 @@
         "image": "/projects/portfolio.jpg"
       },
       {
-        "name": "Gesture Language Translator",
-        "description": "Smart System to bridge communication gaps between individuals who use sign language and those who do not, promoting greater inclusivity.",
-        "tech": ["Python", "OpenCV", "dlib", "Computer Vision"],
-        "repo_url": "https://github.com/Codesmith-23/Facial-Recognition-Attendance-System-with-liveness-check",
-        "demo_url": null,
-        "image": "/projects/glts.jpg"
+        "name": "SnapStream - Cloud Media Platform",
+        "description": " A scalable, highly-available media streaming backend architected on AWS infrastructure.",
+        "tech": [ "Python", "AWS (EC2, S3, DynamoDB)", "Nginx", "Gunicorn"],
+        "repo_url": "https://github.com/Codesmith-23/SnapStream",
+        "demo_url": "https://drive.google.com/file/d/1JtnRUu6EiMzYlbeY3Cj5dEDfVjnG0TBo/view?usp=drive_link",
+        "image": "/projects/snapstream.png"
       }
     ]
   },

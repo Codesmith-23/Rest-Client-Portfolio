@@ -1,8 +1,15 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 export function LiveMetricsGraph() {
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   // Generate a smooth upward-trending path with realistic fluctuations
   const generatePath = () => {
     const points: { x: number; y: number }[] = []
@@ -30,10 +37,13 @@ export function LiveMetricsGraph() {
     return points
   }
 
-  const points = generatePath()
+  // Only generate path client-side after mount
+  const points = isMounted ? generatePath() : []
   
   // Create SVG path string
   const createPathD = (points: { x: number; y: number }[]) => {
+    if (points.length === 0) return ''
+    
     let d = `M ${points[0].x} ${points[0].y}`
     
     // Use quadratic curves for smooth lines
@@ -57,6 +67,8 @@ export function LiveMetricsGraph() {
   
   // Create filled area path (same as line but closed at bottom)
   const createFilledPathD = (points: { x: number; y: number }[]) => {
+    if (points.length === 0) return ''
+    
     const linePath = createPathD(points)
     const lastPoint = points[points.length - 1]
     const firstPoint = points[0]
@@ -66,6 +78,34 @@ export function LiveMetricsGraph() {
   }
 
   const filledPathD = createFilledPathD(points)
+
+  // Show placeholder skeleton until mounted
+  if (!isMounted) {
+    return (
+      <div className="h-32 w-full relative overflow-hidden bg-slate-900/50 border border-slate-800 rounded-xl">
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-2 bg-slate-900/80 backdrop-blur-sm px-3 py-1.5 rounded-md border border-slate-700">
+          <div className="w-2 h-2 rounded-full bg-slate-600 animate-pulse" />
+          <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">
+            METRICS: LOADING
+          </span>
+        </div>
+        <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+          <defs>
+            <pattern id="grid" width="40" height="32" patternUnits="userSpaceOnUse">
+              <path
+                d="M 40 0 L 0 0 0 32"
+                fill="none"
+                stroke="rgb(30 41 59)"
+                strokeWidth="0.5"
+                opacity="0.3"
+              />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+        </svg>
+      </div>
+    )
+  }
 
   return (
     <div className="h-32 w-full relative overflow-hidden bg-slate-900/50 border border-slate-800 rounded-xl">
