@@ -64,22 +64,18 @@ const lineVariants = {
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
-function TimelineNode({ color }: { color: string }) {
+function TimelineNode({ icon: Icon, color }: { icon: React.ElementType; color: string }) {
   return (
     <div className="relative flex flex-col items-center">
-      {/* Outer ring */}
+      {/* Ring with the role icon inside, so the marker carries meaning */}
       <div
         className={`w-10 h-10 rounded-full flex items-center justify-center ring-2 ring-offset-2 ring-offset-slate-950 ${color.replace('text-', 'ring-')} bg-slate-950`}
       >
-        {/* Inner pulse dot */}
-        <span
-          className={`w-3 h-3 rounded-full ${color.replace('text-', 'bg-')} animate-pulse`}
-        />
+        <Icon className={`w-4 h-4 ${color}`} aria-hidden="true" />
       </div>
     </div>
   );
 }
-
 interface TimelineCardProps {
   entry: ExperienceEntry;
   isLast: boolean;
@@ -101,8 +97,8 @@ function TimelineCard({ entry, isLast }: TimelineCardProps) {
       className="flex gap-4 md:gap-6"
     >
       {/* ── Left column: node + line ── */}
-      <div className="flex flex-col items-center flex-shrink-0 pt-1">
-        <TimelineNode color={meta.color} />
+        <div className="hidden sm:flex flex-col items-center flex-shrink-0 pt-1">
+        <TimelineNode icon={Icon} color={meta.color} />        
         {!isLast && (
           <motion.div
             variants={lineVariants}
@@ -114,7 +110,7 @@ function TimelineCard({ entry, isLast }: TimelineCardProps) {
       </div>
 
       {/* ── Right column: card ── */}
-      <div className="flex-1 pb-10">
+        <div className="flex-1 min-w-0 pb-6 sm:pb-10">
         <div
           className={`rounded-xl border ${meta.border} bg-slate-900/60 backdrop-blur-sm overflow-hidden`}
         >
