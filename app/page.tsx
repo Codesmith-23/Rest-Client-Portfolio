@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { TopBar } from '@/components/layout/TopBar';
@@ -23,11 +23,20 @@ export default function Home() {
   const [currentRequestId, setCurrentRequestId] = useState('user-profile');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   const currentRequest = getRequestById(currentRequestId);
+
+  // Close the drawer and hand focus back to the menu button
+  const closeMobileSidebar = useCallback(() => {
+    setIsMobileSidebarOpen(false);
+    // offsetParent is null when the button is hidden (desktop), so focus stays put there
+    if (menuButtonRef.current?.offsetParent) menuButtonRef.current.focus();
+  }, []);
 
   const handleRequestSelect = (requestId: string) => {
     setCurrentRequestId(requestId);
-    setIsMobileSidebarOpen(false);
+    closeMobileSidebar();
   };
 
   const handleMobileMenuToggle = () => {
@@ -45,15 +54,17 @@ export default function Home() {
         currentRequest={currentRequestId}
         onRequestSelect={handleRequestSelect}
         isMobileOpen={isMobileSidebarOpen}
-        onMobileClose={() => setIsMobileSidebarOpen(false)}
+        onMobileClose={closeMobileSidebar}
       />
 
       {/* Main content area */}
-      <div className="flex-1 flex flex-col overflow-hidden md:ml-64 pb-10 md:pb-8">
+      <div className="flex-1 flex flex-col overflow-hidden lg:ml-64 pb-10 md:pb-8">
         <TopBar
           url={currentRequest?.url || ''}
           method={currentRequest?.method || 'GET'}
           onMobileMenuToggle={handleMobileMenuToggle}
+          isMobileMenuOpen={isMobileSidebarOpen}
+          menuButtonRef={menuButtonRef}
         />
 
         <MainStage

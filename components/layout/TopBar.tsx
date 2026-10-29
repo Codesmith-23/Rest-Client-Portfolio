@@ -18,19 +18,24 @@ interface TopBarProps {
   url: string;
   method: 'GET' | 'POST';
   onMobileMenuToggle: () => void;
+  isMobileMenuOpen: boolean;
+  menuButtonRef?: React.Ref<HTMLButtonElement>;
 }
 
-export function TopBar({ url, method, onMobileMenuToggle }: TopBarProps) {
+export function TopBar({ url, method, onMobileMenuToggle, isMobileMenuOpen, menuButtonRef }: TopBarProps) {
   return (
     <motion.div
       variants={topBarVariants}
       className="h-16 bg-slate-900 border-b border-slate-800 flex items-center gap-3 px-4"
     >
-      {/* Hamburger Menu Button (Mobile Only) */}
+      {/* Hamburger Menu Button (Mobile and Tablet) */}
       <button
+        ref={menuButtonRef}
         onClick={onMobileMenuToggle}
-        className="md:hidden p-2 hover:bg-slate-800 rounded transition-colors"
-        aria-label="Toggle menu"
+        className="lg:hidden p-2 hover:bg-slate-800 rounded transition-colors"
+        aria-label="Open endpoints menu"
+        aria-expanded={isMobileMenuOpen}
+        aria-controls="sidebar-nav"
       >
         <Menu className="w-5 h-5 text-slate-300" />
       </button>
@@ -52,6 +57,7 @@ export function TopBar({ url, method, onMobileMenuToggle }: TopBarProps) {
         type="text"
         value={url}
         readOnly
+        aria-label="Request URL"
         className="flex-1 bg-slate-800 text-slate-200 px-4 py-2 rounded border border-slate-700 focus:outline-none focus:border-slate-600 font-mono text-sm"
       />
     </motion.div>
