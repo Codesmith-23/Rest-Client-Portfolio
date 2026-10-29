@@ -8,6 +8,10 @@ import { checkKvRateLimit, getClientIp } from '@/lib/kv-rate-limit';
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
 const GROQ_KEY = process.env.GROQ_API_KEY;
 
+// Providers retire models regularly; override these in Vercel env vars instead of redeploying code
+const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3.1-flash-lite';
+const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
+
 // Abuse protection: cap message size and requests per IP
 const MAX_MESSAGE_LENGTH = 500;
 const PER_MINUTE_LIMIT = 10;
@@ -104,7 +108,7 @@ GREETING RULES:
     try {
       const genAI = new GoogleGenerativeAI(GEMINI_KEY);
       const model = genAI.getGenerativeModel({
-        model: 'gemini-2.0-flash-lite-preview-02-05',
+        model: GEMINI_MODEL,
         systemInstruction: DYNAMIC_PROMPT, // Use dynamic prompt
       });
       const result = await model.generateContent(message);
@@ -123,11 +127,15 @@ GREETING RULES:
           { role: 'system', content: DYNAMIC_PROMPT }, // Use dynamic prompt
           { role: 'user', content: message },
         ],
-        model: 'llama-3.3-70b-versatile',
+        model: GROQ_MODEL,
         temperature: 0.6,
-        max_tokens: 400,
+        max_completion_tokens: 600,
+        reasoning_effort: 'low', // gpt-oss reasons first; keep it short so the answer fits
+        include_reasoning: false,
       });
-      return NextResponse.json({ response: completion.choices[0]?.message?.content });
+      const text = completion.choices[0]?.message?.content;
+      if (text) return NextResponse.json({ response: text });
+      console.error('Groq returned no content');
     } catch (e) {
       console.error('Groq Failed', e);
     }
