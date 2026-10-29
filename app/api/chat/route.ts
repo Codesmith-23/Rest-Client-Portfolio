@@ -1,10 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import Groq from 'groq-sdk';
+import { z } from 'zod';
 import resumeData from '@/context/resume.json';
+import { checkKvRateLimit, getClientIp } from '@/lib/kv-rate-limit';
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY;
 const GROQ_KEY = process.env.GROQ_API_KEY;
+
+// Abuse protection: cap message size and requests per IP
+const MAX_MESSAGE_LENGTH = 500;
+const PER_MINUTE_LIMIT = 10;
+const PER_DAY_LIMIT = 100;
+
+const chatSchema = z.object({
+  message: z.string().trim().min(1).max(MAX_MESSAGE_LENGTH),
+  isFirstMessage: z.boolean().optional().default(false),
+});
 
 // --- 1. SMART GREETING LOGIC ---
 function getLocalResponse(query: string, isFirst: boolean) {
@@ -49,7 +61,33 @@ PROTOCOL:
 4. Identity: User is a VISITOR. Moinuddin is the CREATOR.`;
 
 export async function POST(request: NextRequest) {
-  const { message, isFirstMessage } = await request.json();
+  // 0. VALIDATE INPUT
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ response: '[ERR]: Malformed request.' }, { status: 400 });
+  }
+
+  const parsed = chatSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { response: `[ERR]: Query must be 1-${MAX_MESSAGE_LENGTH} characters.` },
+      { status: 400 }
+    );
+  }
+  const { message, isFirstMessage } = parsed.data;
+
+  // 0b. RATE LIMIT PER IP (shared across instances via Vercel KV)
+  const ip = getClientIp(request.headers);
+  const withinMinute = await checkKvRateLimit(`chat:min:${ip}`, PER_MINUTE_LIMIT, 60);
+  const withinDay = withinMinute && (await checkKvRateLimit(`chat:day:${ip}`, PER_DAY_LIMIT, 86400));
+  if (!withinMinute || !withinDay) {
+    return NextResponse.json(
+      { response: '[ERR]: Rate limit reached. Please wait a moment and try again.' },
+      { status: 429 }
+    );
+  }
 
   // Inject Context directly into the prompt for this specific turn
   const DYNAMIC_PROMPT = `${BASE_PROMPT}
