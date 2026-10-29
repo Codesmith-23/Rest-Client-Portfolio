@@ -216,7 +216,7 @@ export function ContactForm() {
           <div className="bg-slate-950 border border-slate-800 rounded-lg p-3 md:p-6 font-mono text-sm space-y-4">
             {/* From Field (Email) */}
             <div className="flex flex-col md:flex-row md:items-start gap-1 md:gap-3">
-              <span className="text-cyan-400 w-full md:w-auto md:mt-2.5 md:min-w-[80px] text-left mb-1 md:mb-0">"from":</span>
+              <span className="text-cyan-400 w-full md:w-auto md:mt-2.5 md:min-w-[80px] text-left mb-1 md:mb-0">{'"from:"'}</span>
               <div className="flex-1 w-full relative">
                 {/* Targeting Crosshair */}
                 {focusedField === 'email' && (
@@ -246,7 +246,7 @@ export function ContactForm() {
 
             {/* Subject Field */}
             <div className="flex flex-col md:flex-row md:items-start gap-1 md:gap-3">
-              <span className="text-cyan-400 w-full md:w-auto md:mt-2.5 md:min-w-[80px] text-left mb-1 md:mb-0">"subject":</span>
+              <span className="text-cyan-400 w-full md:w-auto md:mt-2.5 md:min-w-[80px] text-left mb-1 md:mb-0">{'"subject:"'}</span>
               <div className="flex-1 w-full relative">
                 {/* Targeting Crosshair */}
                 {focusedField === 'subject' && (
@@ -276,7 +276,7 @@ export function ContactForm() {
 
             {/* Message Field */}
             <div className="flex flex-col md:flex-row md:items-start gap-1 md:gap-3">
-              <span className="text-cyan-400 w-full md:w-auto md:mt-2.5 md:min-w-[80px] text-left mb-1 md:mb-0">"message":</span>
+              <span className="text-cyan-400 w-full md:w-auto md:mt-2.5 md:min-w-[80px] text-left mb-1 md:mb-0">{'"message:"'}</span>
               <div className="flex-1 w-full relative">
                 {/* Targeting Crosshair */}
                 {focusedField === 'message' && (
