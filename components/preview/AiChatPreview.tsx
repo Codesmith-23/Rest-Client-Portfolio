@@ -262,6 +262,7 @@ export function AiChatPreview({ data }: AiChatPreviewProps) {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Enter system query..."
+              maxLength={500}
               className="flex-1 bg-black/50 border border-slate-700 focus:border-green-500 text-green-400 placeholder:text-slate-600 font-mono transition-colors"
               disabled={isProcessing}
             />
