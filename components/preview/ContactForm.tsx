@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { memo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,27 +11,29 @@ import { Send, Loader2 } from 'lucide-react';
 import { useLogContext } from '@/context/LogContext';
 import { TextScramble } from '@/components/animations/TextScramble';
 
-// LAYER A: Global Packet Rain - Double-buffered for seamless loop
-const GlobalPacketRain = () => {
-  // Generate particle configuration (shared by both streams)
-  const generateParticles = (streamId: string, count: number) => {
-    return Array.from({ length: count }, (_, i) => {
-      const duration = Math.random() * 10 + 15; // 15-25 seconds
-      return {
-        id: `${streamId}-${i}`,
-        left: `${Math.random() * 100}%`,
-        size: Math.random() > 0.6 ? 'w-2.5 h-2.5' : 'w-2 h-2',
-        duration,
-        delay: -(Math.random() * duration) // Pre-warmed state
-      };
-    });
-  };
+// Particle layout for the packet rain. Built once per mount (not on every
+// render) so the background doesn't reshuffle while someone types.
+const generateParticles = (streamId: string, count: number) => {
+  return Array.from({ length: count }, (_, i) => {
+    const duration = Math.random() * 10 + 15; // 15-25 seconds
+    return {
+      id: `${streamId}-${i}`,
+      left: `${Math.random() * 100}%`,
+      size: Math.random() > 0.6 ? 'w-2.5 h-2.5' : 'w-2 h-2',
+      duration,
+      delay: -(Math.random() * duration) // Pre-warmed state
+    };
+  });
+};
 
+// LAYER A: Global Packet Rain - Double-buffered for seamless loop.
+// memo() keeps form state changes from re-rendering it.
+const GlobalPacketRain = memo(function GlobalPacketRain() {
   // Stream A: Primary particles
-  const streamA = generateParticles('stream-a', 25);
+  const [streamA] = useState(() => generateParticles('stream-a', 25));
   
   // Stream B: Overlapping particles with -10s offset for seamless coverage
-  const streamB = generateParticles('stream-b', 25);
+  const [streamB] = useState(() => generateParticles('stream-b', 25));
 
   return (
     <div 
@@ -80,7 +82,7 @@ const GlobalPacketRain = () => {
       ))}
     </div>
   );
-};
+});
 
 export function ContactForm() {
   const [email, setEmail] = useState('');
@@ -89,16 +91,7 @@ export function ContactForm() {
   const [trap, setTrap] = useState(''); // Honeypot field
   const [isLoading, setIsLoading] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
-  const [scrambleKey, setScrambleKey] = useState(0);
   const { addLog } = useLogContext();
-
-  // Scramble text every 6 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setScrambleKey(prev => prev + 1);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSend = async () => {
     // Client-side validation
@@ -188,7 +181,7 @@ export function ContactForm() {
         <CardHeader className="relative z-20 p-3 md:p-6">
           <CardTitle className="text-lg md:text-3xl text-yellow-400 font-mono font-bold">ENCRYPTED_MESSAGE_CHANNEL</CardTitle>
           <p className="text-xs md:text-sm text-slate-400 mt-2 font-mono">
-            <TextScramble key={scrambleKey} text="Direct message payload to admin" speed={40} />
+            <TextScramble text="Direct message payload to admin" speed={40} />
           </p>
         </CardHeader>
         
