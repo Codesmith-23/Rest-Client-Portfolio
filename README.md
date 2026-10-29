@@ -13,7 +13,7 @@ A **High-Performance System Interface** masquerading as a personal portfolio. De
 
 ---
 
-## ⚡ System Architecture
+## ⚡ System Design
 
 This project is not a standard static website. It is a **Single Page Application (SPA)** architected to behave like a developer tool (Postman/Terminal). It features a real-time command interface, secure data transmission, and an autonomous AI kernel.
 
