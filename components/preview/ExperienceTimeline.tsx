@@ -9,25 +9,28 @@ import { Badge } from '@/components/ui/badge';
 // Map each role title to a Lucide icon + accent colour
 const ROLE_META: Record<
   string,
-  { icon: React.ElementType; color: string; bg: string; border: string }
+  { icon: React.ElementType; color: string; bg: string; border: string; dot: string }
 > = {
   'Freelance Full-Stack Engineer': {
     icon: Layers,
     color: 'text-violet-400',
     bg: 'bg-violet-500/10',
     border: 'border-violet-500/30',
+    dot: 'bg-violet-400',
   },
   'AWS Cloud Capstone Trainee': {
     icon: Cloud,
     color: 'text-amber-400',
     bg: 'bg-amber-500/10',
     border: 'border-amber-500/30',
+    dot: 'bg-amber-400',
   },
   'Mobile Development Intern': {
     icon: Smartphone,
     color: 'text-sky-400',
     bg: 'bg-sky-500/10',
     border: 'border-sky-500/30',
+    dot: 'bg-sky-400',
   },
 };
 
@@ -36,6 +39,7 @@ const DEFAULT_META = {
   color: 'text-slate-400',
   bg: 'bg-slate-500/10',
   border: 'border-slate-500/30',
+  dot: 'bg-slate-400',
 };
 
 // ─── Animation variants ────────────────────────────────────────────────────
@@ -64,18 +68,15 @@ const lineVariants = {
 
 // ─── Sub-components ────────────────────────────────────────────────────────
 
-function TimelineNode({ icon: Icon, color }: { icon: React.ElementType; color: string }) {
+function TimelineNode({ dot }: { dot: string }) {
+  // Small colored dot: marks the entry without repeating the card's icon
   return (
-    <div className="relative flex flex-col items-center">
-      {/* Ring with the role icon inside, so the marker carries meaning */}
-      <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center ring-2 ring-offset-2 ring-offset-slate-950 ${color.replace('text-', 'ring-')} bg-slate-950`}
-      >
-        <Icon className={`w-4 h-4 ${color}`} aria-hidden="true" />
-      </div>
+    <div className="relative flex h-6 items-center justify-center">
+      <span className={`w-3 h-3 rounded-full ${dot} ring-4 ring-slate-950`} aria-hidden="true" />
     </div>
   );
 }
+
 interface TimelineCardProps {
   entry: ExperienceEntry;
   isLast: boolean;
@@ -96,9 +97,9 @@ function TimelineCard({ entry, isLast }: TimelineCardProps) {
       animate={inView ? 'visible' : 'hidden'}
       className="flex gap-4 md:gap-6"
     >
-      {/* ── Left column: node + line ── */}
-        <div className="hidden sm:flex flex-col items-center flex-shrink-0 pt-1">
-        <TimelineNode icon={Icon} color={meta.color} />        
+      {/* ── Left column: node + line (hidden on phones so the card gets the full width) ── */}
+      <div className="hidden sm:flex flex-col items-center flex-shrink-0 pt-5">
+        <TimelineNode dot={meta.dot} />
         {!isLast && (
           <motion.div
             variants={lineVariants}
@@ -110,7 +111,7 @@ function TimelineCard({ entry, isLast }: TimelineCardProps) {
       </div>
 
       {/* ── Right column: card ── */}
-        <div className="flex-1 min-w-0 pb-6 sm:pb-10">
+      <div className="flex-1 min-w-0 pb-6 sm:pb-10">
         <div
           className={`rounded-xl border ${meta.border} bg-slate-900/60 backdrop-blur-sm overflow-hidden`}
         >
