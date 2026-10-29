@@ -238,7 +238,7 @@ export function ContactForm() {
                   onFocus={() => setFocusedField('email')}
                   onBlur={() => setFocusedField(null)}
                   placeholder="your.email@example.com"
-                  className="bg-slate-900 border-slate-700 focus:border-green-500 text-green-400 placeholder:text-slate-600 font-mono text-sm transition-colors"
+                  className="bg-slate-900 border-slate-700 focus:border-green-500 text-green-400 placeholder:text-slate-600 font-mono text-base md:text-sm transition-colors"
                   required
                 />
               </div>
@@ -268,7 +268,7 @@ export function ContactForm() {
                   onFocus={() => setFocusedField('subject')}
                   onBlur={() => setFocusedField(null)}
                   placeholder="Enter subject..."
-                  className="bg-slate-900 border-slate-700 focus:border-green-500 text-green-400 placeholder:text-slate-600 font-mono text-sm transition-colors"
+                  className="bg-slate-900 border-slate-700 focus:border-green-500 text-green-400 placeholder:text-slate-600 font-mono text-base md:text-sm transition-colors"
                   required
                 />
               </div>
@@ -298,7 +298,7 @@ export function ContactForm() {
                   onBlur={() => setFocusedField(null)}
                   placeholder="Type your message here... (min 10 chars)"
                   rows={8}
-                  className="bg-slate-900 border-slate-700 focus:border-green-500 text-green-400 placeholder:text-slate-600 font-mono text-sm resize-none transition-colors"
+                  className="bg-slate-900 border-slate-700 focus:border-green-500 text-green-400 placeholder:text-slate-600 font-mono text-base md:text-sm resize-none transition-colors"
                   required
                   minLength={10}
                   maxLength={1000}
