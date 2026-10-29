@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <motion.div
-      className="flex h-screen bg-slate-950"
+      className="flex h-dvh bg-slate-950"
       variants={layoutVariants}
       initial="hidden"
       animate="visible"

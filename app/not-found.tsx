@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-dvh bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         <div className="bg-card border border-border rounded-lg p-8 shadow-2xl">
           {/* JSON Response Card */}

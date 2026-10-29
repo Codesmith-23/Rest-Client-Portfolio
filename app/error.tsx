@@ -15,7 +15,7 @@ export default function Error({
   }, [error])
 
   return (
-    <div className="min-h-screen bg-destructive/10 flex items-center justify-center p-4">
+    <div className="min-h-dvh-screen bg-destructive/10 flex items-center justify-center p-4">
       <div className="w-full max-w-3xl">
         {/* BSOD-style Error Screen */}
         <div className="bg-destructive text-destructive-foreground rounded-lg p-8 shadow-2xl border-4 border-destructive">
