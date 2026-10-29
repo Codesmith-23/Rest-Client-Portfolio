@@ -265,3 +265,14 @@ img {
   scrollbar-width: thin;
   scrollbar-color: rgb(31 41 55) transparent;
 }
+/* Respect the OS "reduce motion" setting for every CSS animation and transition */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

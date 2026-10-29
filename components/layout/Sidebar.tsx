@@ -1,10 +1,11 @@
 'use client';
 
 import { ChevronDown, ChevronRight, Folder } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useLogContext } from '@/context/LogContext';
+import { useIsDesktop } from '@/lib/hooks/useReducedMotion';
 
 // Slides in from left, fades in
 const sidebarVariants = {
@@ -31,6 +32,49 @@ export function Sidebar({
 }: SidebarProps) {
   const [isV1Expanded, setIsV1Expanded] = useState(true);
   const { addLog } = useLogContext();
+  const isDesktop = useIsDesktop();
+  const asideRef = useRef<HTMLElement>(null);
+
+  // Drawer mode (below lg): hidden from keyboard and screen readers while closed
+  const isHidden = !isDesktop && !isMobileOpen;
+  const isDrawerOpen = !isDesktop && isMobileOpen;
+
+  // While the drawer is open: move focus into it, trap Tab, close on Escape
+  useEffect(() => {
+    if (!isDrawerOpen) return;
+    const aside = asideRef.current;
+    if (!aside) return;
+
+    const getFocusable = () =>
+      Array.from(aside.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]'));
+
+    getFocusable()[0]?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onMobileClose();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isDrawerOpen, onMobileClose]);
 
   const handleRequestClick = (requestId: string, url: string) => {
     addLog('GET', `${url} - 200 OK`);
@@ -43,18 +87,24 @@ export function Sidebar({
       {/* Mobile overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 md:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={onMobileClose}
+          aria-hidden="true"
         />
       )}
 
       {/* Sidebar */}
       <motion.aside
+        ref={asideRef}
+        id="sidebar-nav"
         variants={sidebarVariants}
+        inert={isHidden}
+        aria-label="API endpoints"
+        {...(isDrawerOpen && { role: 'dialog', 'aria-modal': true })}
         className={cn(
           'fixed top-0 left-0 h-full w-64 bg-slate-900 border-r border-slate-800 z-50 transition-transform duration-300',
-          'md:translate-x-0', // Always visible on desktop
-          isMobileOpen ? 'translate-x-0' : '-translate-x-full' // Toggle on mobile
+          'lg:translate-x-0', // Always visible on desktop
+          isMobileOpen ? 'translate-x-0' : '-translate-x-full' // Toggle on mobile and tablet
         )}
       >
         <div className="flex flex-col h-full">
@@ -64,11 +114,12 @@ export function Sidebar({
           </div>
 
           {/* Request List */}
-          <div className="flex-1 overflow-y-auto p-2">
+          <nav aria-label="Sections" className="flex-1 overflow-y-auto p-2">
             {/* v1 (Stable) Folder */}
             <div className="mb-2">
               <button
                 onClick={() => setIsV1Expanded(!isV1Expanded)}
+                aria-expanded={isV1Expanded}
                 className="flex items-center gap-2 w-full px-2 py-1.5 text-sm text-slate-300 hover:bg-slate-800 rounded transition-colors"
               >
                 {isV1Expanded ? (
@@ -133,7 +184,7 @@ export function Sidebar({
                 </div>
               )}
             </div>
-          </div>
+          </nav>
         </div>
       </motion.aside>
     </>
@@ -165,6 +216,7 @@ function RequestItem({ label, method, isActive, onClick, methodColor = 'default'
   return (
     <button
       onClick={onClick}
+      aria-current={isActive ? 'page' : undefined}
       className={cn(
         'flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded transition-colors',
         isActive

@@ -5,7 +5,10 @@ import { Toaster } from "@/components/ui/sonner";
 import { LogProvider } from "@/context/LogContext";
 import { ConsoleDrawer } from "@/components/ui/ConsoleDrawer";
 import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next"; 
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { MotionProvider } from "@/components/providers/MotionProvider";
+import { SITE_URL } from "@/lib/site";
+import resume from "@/context/resume.json";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -18,10 +21,13 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://moinuddin.vercel.app'),
+  metadataBase: new URL(SITE_URL),
+  alternates: {
+    canonical: '/',
+  },
   title: {
-    default: "Moinuddin's Localhost | Portfolio",
-    template: "%s | Moinuddin's Localhost"
+    default: "Mohammed Moinuddin Shaikh · Backend Developer",
+    template: "%s | Mohammed Moinuddin Shaikh"
   },
   description: "Explore my work through a live API dashboard. Dive into my full-stack apps, AWS cloud backends, and AI engines.",
   keywords: ["developer", "portfolio", "full stack", "web development", "API"],
@@ -31,13 +37,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    title: "Moinuddin's Localhost | Portfolio",
+    title: "Mohammed Moinuddin Shaikh · Backend Developer",
     description: "Explore my work through a live API dashboard. Dive into my full-stack apps, AWS cloud backends, and AI engines.",
     siteName: "Moinuddin Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Moinuddin's Localhost | Portfolio",
+    title: "Mohammed Moinuddin Shaikh · Backend Developer",
     description: "Explore my work through a live API dashboard. Dive into my full-stack apps, AWS cloud backends, and AI engines.",
   },
   robots: {
@@ -56,11 +62,19 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
   themeColor: "#020617",
   // Fix mobile keyboard overlay - resizes viewport when keyboard appears
   interactiveWidget: "resizes-content",
+};
+
+// Structured data so search engines can tie the site to the person
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: resume.user.name,
+  jobTitle: resume.user.role,
+  url: SITE_URL,
+  sameAs: [resume.contact.github, resume.contact.linkedin],
 };
 
 export default function RootLayout({
@@ -73,13 +87,19 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
       >
-        <LogProvider>
-          {children}
-          <ConsoleDrawer />
-          <Toaster />
-          <Analytics />
-          <SpeedInsights />
-        </LogProvider>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        <MotionProvider>
+          <LogProvider>
+            {children}
+            <ConsoleDrawer />
+            <Toaster />
+            <Analytics />
+            <SpeedInsights />
+          </LogProvider>
+        </MotionProvider>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 import { ResumeData, RequestConfig } from './types';
 import resumeData from '@/context/resume.json';
+import { API_BASE } from './site';
 
 /**
  * Load and parse resume data from context/resume.json
@@ -17,7 +18,7 @@ export const requests: RequestConfig[] = [
     id: 'user-profile',
     label: 'User',
     method: 'GET',
-    url: 'https://api.moinuddin.dev/v1/user/profile',
+    url: `${API_BASE}/v1/user/profile`,
     folder: 'v1 (Stable)',
     type: 'profile'
   },
@@ -25,7 +26,7 @@ export const requests: RequestConfig[] = [
     id: 'github-repos',
     label: 'Projects',
     method: 'GET',
-    url: 'https://api.moinuddin.dev/v1/projects',
+    url: `${API_BASE}/v1/projects`,
     folder: 'v1 (Stable)',
     type: 'github'
   },
@@ -33,7 +34,7 @@ export const requests: RequestConfig[] = [
     id: 'ai-query',
     label: 'AI Query',
     method: 'POST',
-    url: 'https://api.moinuddin.dev/v1/ai/query',
+    url: `${API_BASE}/v1/ai/query`,
     folder: 'v1 (Stable)',
     type: 'ai'
   },
@@ -41,7 +42,7 @@ export const requests: RequestConfig[] = [
     id: 'network-handshake',
     label: 'Establish Connection',
     method: 'POST',
-    url: 'https://api.moinuddin.dev/v1/network/handshake',
+    url: `${API_BASE}/v1/network/handshake`,
     folder: 'v1 (Stable)',
     type: 'social'
   },
@@ -49,7 +50,7 @@ export const requests: RequestConfig[] = [
     id: 'uplink-transmit',
     label: 'Direct Uplink',
     method: 'POST',
-    url: 'https://api.moinuddin.dev/v1/uplink/transmit',
+    url: `${API_BASE}/v1/uplink/transmit`,
     folder: 'v1 (Stable)',
     type: 'contact'
   }
